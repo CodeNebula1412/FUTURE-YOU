@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Future You</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff9f2;
+            color: #33283d;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background shapes */
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(10px);
+            opacity: 0.55;
+            z-index: -1;
+        }
+
+        .blob-yellow {
+            width: 330px;
+            height: 330px;
+            background: #fff1a8;
+            top: -100px;
+            left: -80px;
+        }
+
+        .blob-pink {
+            width: 360px;
+            height: 360px;
+            background: #f7b8d8;
+            right: -120px;
+            top: 25%;
+        }
+
+        .blob-lavender {
+            width: 300px;
+            height: 300px;
+            background: #cdbdf4;
+            left: 15%;
+            bottom: -140px;
+        }
+
+        /* Navigation */
+
+        nav {
+            width: 100%;
+            padding: 26px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #33283d;
+            font-size: 14px;
+        }
+
+        .nav-button {
+            background: #33283d;
+            color: white !important;
+            padding: 11px 20px;
+            border-radius: 30px;
+        }
+
+        /* Hero */
+
+        .hero {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            padding: 50px 7% 90px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #fff1a8;
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: clamp(55px, 7vw, 92px);
+            line-height: 0.95;
+            letter-spacing: -5px;
+            margin-bottom: 28px;
+        }
+
+        h1 span {
+            display: block;
+            color: #8c6fc7;
+        }
+
+        .hero-text {
+            max-width: 500px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #665b6d;
+            margin-bottom: 35px;
+        }
+
+        .main-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            background: #33283d;
+            color: white;
+            padding: 16px 25px;
+            border-radius: 35px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.25s ease;
+        }
+
+        .main-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .arrow {
+            font-size: 18px;
+        }
+
+        /* Preview */
+
+        .preview {
+            width: min(440px, 90vw);
+            position: relative;
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(51, 40, 61, 0.08);
+            border-radius: 32px;
+            padding: 25px;
+            box-shadow: 0 25px 70px rgba(51, 40, 61, 0.12);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .today {
+            font-size: 12px;
+            color: #8b808f;
+        }
+
+        /* Timeline */
+
+        .timeline {
+            position: relative;
+            padding: 10px 0 10px 25px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: linear-gradient(
+                to bottom,
+                #f7b8d8,
+                #cdbdf4,
+                #fff1a8
+            );
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .dot {
+            position: absolute;
+            left: -23px;
+            top: 3px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .pink {
+            background: #f7b8d8;
+        }
+
+        .lavender {
+            background: #cdbdf4;
+        }
+
+        .yellow {
+            background: #fff1a8;
+        }
+
+        .timeline-label {
+            font-size: 12px;
+            color: #8b808f;
+            margin-bottom: 5px;
+        }
+
+        .timeline-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Floating cards */
+
+        .floating {
+            position: absolute;
+            padding: 14px 18px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(51, 40, 61, 0.1);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .floating-one {
+            left: -45px;
+            top: 30px;
+            background: #fff1a8;
+        }
+
+        .floating-two {
+            right: -35px;
+            bottom: 45px;
+            background: #f7b8d8;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+
+            .nav-links a:not(.nav-button) {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 30px;
+            }
+
+            .preview {
+                align-self: center;
+                margin-top: 30px;
+            }
+
+            .floating-one {
+                left: -15px;
+            }
+
+            .floating-two {
+                right: -10px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            nav {
+                padding: 20px;
+            }
+
+            .hero {
+                padding: 35px 20px 60px;
+            }
+
+            h1 {
+                font-size: 58px;
+                letter-spacing: -3px;
+            }
+
+            .hero-text {
+                font-size: 16px;
+            }
+
+            .preview-card {
+                padding: 20px;
+            }
+
+            .floating {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="blob blob-yellow"></div>
+    <div class="blob blob-pink"></div>
+    <div class="blob blob-lavender"></div>
+
+    <nav>
+
+        <div class="logo">
+            Future You
+        </div>
+
+        <div class="nav-links">
+            <a href="#">How it works</a>
+            <a href="#">Your journey</a>
+            <a href="#" class="nav-button">Get started</a>
+        </div>
+
+    </nav>
+
+
+    <main class="hero">
+
+        <section class="hero-content">
+
+            <div class="tag">
+                Explore your possibilities
+            </div>
+
+            <h1>
+                Meet
+                <span>Future You.</span>
+            </h1>
+
+            <p class="hero-text">
+                Your future isn't a single path.
+                Explore how small changes today can create
+                completely different possibilities tomorrow.
+            </p>
+
+            <a href="#" class="main-button">
+                Explore your future
+                <span class="arrow">→</span>
+            </a>
+
+        </section>
+
+
+        <section class="preview">
+
+            <div class="floating floating-one">
+                + 365 hours
+            </div>
+
+            <div class="floating floating-two">
+                New trajectory ✦
+            </div>
+
+            <div class="preview-card">
+
+                <div class="preview-header">
+
+                    <div class="preview-title">
+                        Your trajectory
+                    </div>
+
+                    <div class="today">
+                        Today
+                    </div>
+
+                </div>
+
+
+                <div class="timeline">
+
+                    <div class="timeline-item">
+
+                        <div class="dot pink"></div>
+
+                        <div class="timeline-label">
+                            NOW
+                        </div>
+
+                        <div class="timeline-value">
+                            You are here
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="dot lavender"></div>
+
+                        <div class="timeline-label">
+                            3 MONTHS
+                        </div>
+
+                        <div class="timeline-value">
+                            Your path takes shape
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="dot yellow"></div>
+
+                        <div class="timeline-label">
+                            6 MONTHS
+                        </div>
+
+                        <div class="timeline-value">
+                            Small changes add up
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item">
+
+                        <div class="dot pink"></div>
+
+                        <div class="timeline-label">
+                            1 YEAR
+                        </div>
+
+                        <div class="timeline-value">
+                            A different possibility
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
