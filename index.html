@@ -1,482 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Future You</title>
+  <title>Future You</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #fff9f2;
-            color: #33283d;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Background shapes */
+    :root {
+      --cream: #fffaf2;
+      --plum: #33283d;
+      --pink: #f7b8d8;
+      --yellow: #fff1a8;
+      --lavender: #cdbdf4;
+      --peach: #ffd2b8;
+    }
 
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(10px);
-            opacity: 0.55;
-            z-index: -1;
-        }
+    body {
+      min-height: 100vh;
+      background: var(--cream);
+      color: var(--plum);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
 
-        .blob-yellow {
-            width: 330px;
-            height: 330px;
-            background: #fff1a8;
-            top: -100px;
-            left: -80px;
-        }
+    /* ---------------- BACKGROUND ---------------- */
 
-        .blob-pink {
-            width: 360px;
-            height: 360px;
-            background: #f7b8d8;
-            right: -120px;
-            top: 25%;
-        }
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.75;
+      z-index: -2;
+      pointer-events: none;
+    }
 
-        .blob-lavender {
-            width: 300px;
-            height: 300px;
-            background: #cdbdf4;
-            left: 15%;
-            bottom: -140px;
-        }
+    .blob-yellow {
+      width: 420px;
+      height: 420px;
+      background: var(--yellow);
+      top: -180px;
+      right: -120px;
+    }
 
-        /* Navigation */
+    .blob-pink {
+      width: 330px;
+      height: 330px;
+      background: var(--pink);
+      bottom: -120px;
+      left: -100px;
+    }
 
-        nav {
-            width: 100%;
-            padding: 26px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .blob-lavender {
+      width: 260px;
+      height: 260px;
+      background: var(--lavender);
+      top: 42%;
+      left: 44%;
+      opacity: 0.3;
+    }
 
-        .logo {
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+    /* ---------------- NAVBAR ---------------- */
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
+    nav {
+      width: 100%;
+      padding: 30px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #33283d;
-            font-size: 14px;
-        }
+    /* BIGGER FUTURE YOU LOGO */
 
-        .nav-button {
-            background: #33283d;
-            color: white !important;
-            padding: 11px 20px;
-            border-radius: 30px;
-        }
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      color: var(--plum);
+      position: relative;
+    }
 
-        /* Hero */
+    .logo::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      background: var(--pink);
+      border-radius: 50%;
+      right: -14px;
+      top: 2px;
+    }
 
-        .hero {
-            min-height: calc(100vh - 90px);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
-            padding: 50px 7% 90px;
-        }
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
 
-        .hero-content {
-            max-width: 600px;
-        }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--plum);
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.7;
+      transition: 0.25s ease;
+    }
 
-        .tag {
-            display: inline-block;
-            background: #fff1a8;
-            padding: 9px 16px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 25px;
-        }
+    .nav-links a:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
 
-        h1 {
-            font-size: clamp(55px, 7vw, 92px);
-            line-height: 0.95;
-            letter-spacing: -5px;
-            margin-bottom: 28px;
-        }
+    /* ---------------- HERO ---------------- */
 
-        h1 span {
-            display: block;
-            color: #8c6fc7;
-        }
+    .hero {
+      min-height: calc(100vh - 95px);
+      padding: 60px 8vw 90px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 80px;
+    }
 
-        .hero-text {
-            max-width: 500px;
-            font-size: 18px;
-            line-height: 1.7;
-            color: #665b6d;
-            margin-bottom: 35px;
-        }
+    .hero-left {
+      max-width: 650px;
+      animation: fadeUp 1s ease forwards;
+    }
 
-        .main-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            background: #33283d;
-            color: white;
-            padding: 16px 25px;
-            border-radius: 35px;
-            font-size: 15px;
-            font-weight: 600;
-            transition: 0.25s ease;
-        }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 16px;
+      background: rgba(255, 241, 168, 0.7);
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
 
-        .main-button:hover {
-            transform: translateY(-3px);
-        }
+    .eyebrow span {
+      width: 7px;
+      height: 7px;
+      background: #d7a900;
+      border-radius: 50%;
+    }
 
-        .arrow {
-            font-size: 18px;
-        }
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(62px, 8vw, 108px);
+      line-height: 0.93;
+      letter-spacing: -5px;
+      font-weight: 800;
+      margin-bottom: 30px;
+    }
 
-        /* Preview */
+    h1 .future {
+      display: block;
+    }
 
-        .preview {
-            width: min(440px, 90vw);
-            position: relative;
-        }
+    h1 .you {
+      display: block;
+      position: relative;
+      width: fit-content;
+    }
 
-        .preview-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(51, 40, 61, 0.08);
-            border-radius: 32px;
-            padding: 25px;
-            box-shadow: 0 25px 70px rgba(51, 40, 61, 0.12);
-        }
+    h1 .you::after {
+      content: "";
+      position: absolute;
+      height: 14px;
+      width: 100%;
+      left: 4px;
+      bottom: -3px;
+      background: var(--pink);
+      border-radius: 50%;
+      transform: rotate(-2deg);
+      z-index: -1;
+    }
 
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
+    .hero-text {
+      max-width: 540px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: #665b6d;
+      margin-bottom: 35px;
+    }
 
-        .preview-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
+    /* ---------------- BUTTON ---------------- */
 
-        .today {
-            font-size: 12px;
-            color: #8b808f;
-        }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      padding: 17px 25px;
+      border-radius: 50px;
+      background: var(--plum);
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(51, 40, 61, 0.18);
+      transition: 0.3s ease;
+    }
 
-        /* Timeline */
+    .cta:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 35px rgba(51, 40, 61, 0.23);
+    }
 
-        .timeline {
-            position: relative;
-            padding: 10px 0 10px 25px;
-        }
+    .cta-arrow {
+      font-size: 19px;
+      transition: 0.3s ease;
+    }
 
-        .timeline::before {
-            content: "";
-            position: absolute;
-            left: 8px;
-            top: 5px;
-            bottom: 5px;
-            width: 2px;
-            background: linear-gradient(
-                to bottom,
-                #f7b8d8,
-                #cdbdf4,
-                #fff1a8
-            );
-        }
+    .cta:hover .cta-arrow {
+      transform: translateX(5px);
+    }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 24px;
-        }
+    /* ---------------- PREVIEW CARD ---------------- */
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
+    .hero-right {
+      width: min(390px, 100%);
+      position: relative;
+      animation: floatIn 1.2s ease forwards;
+    }
 
-        .dot {
-            position: absolute;
-            left: -23px;
-            top: 3px;
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            border: 3px solid white;
-        }
+    .preview {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 32px;
+      padding: 30px;
+      box-shadow: 0 25px 70px rgba(77, 58, 86, 0.12);
+    }
 
-        .pink {
-            background: #f7b8d8;
-        }
+    .preview-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #817587;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
 
-        .lavender {
-            background: #cdbdf4;
-        }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-        .yellow {
-            background: #fff1a8;
-        }
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      min-height: 76px;
+      position: relative;
+    }
 
-        .timeline-label {
-            font-size: 12px;
-            color: #8b808f;
-            margin-bottom: 5px;
-        }
+    .timeline-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 29px;
+      width: 2px;
+      height: 48px;
+      background: #e7dff0;
+    }
 
-        .timeline-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--lavender);
+      border: 5px solid white;
+      box-shadow: 0 0 0 1px #ded4e9;
+      z-index: 2;
+    }
 
-        /* Floating cards */
+    .timeline-item:first-child .dot {
+      background: var(--pink);
+    }
 
-        .floating {
-            position: absolute;
-            padding: 14px 18px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 15px 35px rgba(51, 40, 61, 0.1);
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .timeline-item:last-child .dot {
+      background: var(--yellow);
+    }
 
-        .floating-one {
-            left: -45px;
-            top: 30px;
-            background: #fff1a8;
-        }
+    .timeline-content small {
+      display: block;
+      color: #8a7e91;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+    }
 
-        .floating-two {
-            right: -35px;
-            bottom: 45px;
-            background: #f7b8d8;
-        }
+    .timeline-content strong {
+      font-size: 15px;
+    }
 
-        /* Responsive */
+    /* FLOATING CARDS */
 
-        @media (max-width: 850px) {
+    .floating-card {
+      position: absolute;
+      padding: 14px 18px;
+      border-radius: 17px;
+      background: white;
+      box-shadow: 0 15px 35px rgba(77, 58, 86, 0.12);
+      font-size: 13px;
+      font-weight: 700;
+      animation: gentleFloat 4s ease-in-out infinite;
+    }
 
-            .nav-links a:not(.nav-button) {
-                display: none;
-            }
+    .hours-card {
+      left: -70px;
+      top: 85px;
+      background: var(--yellow);
+    }
 
-            .hero {
-                flex-direction: column;
-                align-items: flex-start;
-                padding-top: 30px;
-            }
+    .trajectory-card {
+      right: -55px;
+      bottom: 55px;
+      background: var(--pink);
+      animation-delay: 1.2s;
+    }
 
-            .preview {
-                align-self: center;
-                margin-top: 30px;
-            }
+    /* ---------------- CURSOR FLOWER TRAIL ---------------- */
 
-            .floating-one {
-                left: -15px;
-            }
+    .trail-flower {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      animation: flowerFade 900ms ease-out forwards;
+      font-size: 18px;
+      user-select: none;
+    }
 
-            .floating-two {
-                right: -10px;
-            }
-        }
+    @keyframes flowerFade {
+      0% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+      }
 
-        @media (max-width: 500px) {
+      45% {
+        opacity: 0.75;
+        transform: translate(-50%, -50%) scale(1) rotate(20deg);
+      }
 
-            nav {
-                padding: 20px;
-            }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -80px) scale(0.35) rotate(80deg);
+      }
+    }
 
-            .hero {
-                padding: 35px 20px 60px;
-            }
+    /* ---------------- ANIMATIONS ---------------- */
 
-            h1 {
-                font-size: 58px;
-                letter-spacing: -3px;
-            }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
 
-            .hero-text {
-                font-size: 16px;
-            }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-            .preview-card {
-                padding: 20px;
-            }
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(35px) rotate(2deg);
+      }
 
-            .floating {
-                display: none;
-            }
-        }
-    </style>
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* ---------------- MOBILE ---------------- */
+
+    @media (max-width: 850px) {
+
+      nav {
+        padding: 25px 6vw;
+      }
+
+      .logo {
+        font-size: 28px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 45px 7vw 80px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 70px;
+      }
+
+      h1 {
+        font-size: clamp(58px, 16vw, 90px);
+        letter-spacing: -4px;
+      }
+
+      .hero-text {
+        font-size: 16px;
+      }
+
+      .hero-right {
+        width: 90%;
+        margin: auto;
+      }
+
+      .hours-card {
+        left: -25px;
+      }
+
+      .trajectory-card {
+        right: -20px;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .hero {
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: 60px;
+      }
+
+      .preview {
+        padding: 24px;
+      }
+
+      .floating-card {
+        font-size: 11px;
+        padding: 11px 13px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="blob blob-yellow"></div>
-    <div class="blob blob-pink"></div>
-    <div class="blob blob-lavender"></div>
+  <!-- Background -->
+  <div class="blob blob-yellow"></div>
+  <div class="blob blob-pink"></div>
+  <div class="blob blob-lavender"></div>
 
-    <nav>
+  <!-- Navigation -->
+  <nav>
 
-        <div class="logo">
-            Future You
+    <div class="logo">
+      Future You
+    </div>
+
+    <div class="nav-links">
+      <a href="#">How it works</a>
+      <a href="#">Your journey</a>
+      <a href="#">Get started</a>
+    </div>
+
+  </nav>
+
+
+  <!-- Hero -->
+  <main class="hero">
+
+    <section class="hero-left">
+
+      <div class="eyebrow">
+        <span></span>
+        Explore your possibilities
+      </div>
+
+      <h1>
+        <span class="future">Meet</span>
+        <span class="you">Future You.</span>
+      </h1>
+
+      <p class="hero-text">
+        Your future isn't a single path.
+        Explore how small changes today can create
+        completely different possibilities tomorrow.
+      </p>
+
+      <a href="#" class="cta">
+        Explore your future
+        <span class="cta-arrow">→</span>
+      </a>
+
+    </section>
+
+
+    <!-- Preview -->
+    <section class="hero-right">
+
+      <div class="floating-card hours-card">
+        +365 hours
+      </div>
+
+      <div class="preview">
+
+        <div class="preview-title">
+          Your trajectory
         </div>
 
-        <div class="nav-links">
-            <a href="#">How it works</a>
-            <a href="#">Your journey</a>
-            <a href="#" class="nav-button">Get started</a>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-content">
+              <small>NOW</small>
+              <strong>Where you are today</strong>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-content">
+              <small>3 MONTHS</small>
+              <strong>Small changes begin</strong>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-content">
+              <small>6 MONTHS</small>
+              <strong>Your path starts shifting</strong>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div class="timeline-content">
+              <small>1 YEAR</small>
+              <strong>A different possibility</strong>
+            </div>
+          </div>
+
         </div>
 
-    </nav>
+      </div>
+
+      <div class="floating-card trajectory-card">
+        New trajectory ✦
+      </div>
+
+    </section>
+
+  </main>
 
 
-    <main class="hero">
+  <!-- Flower Cursor Trail -->
+  <script>
 
-        <section class="hero-content">
+    const flowers = ["✿", "✦", "❀", "✧", "•"];
 
-            <div class="tag">
-                Explore your possibilities
-            </div>
+    let lastX = 0;
+    let lastY = 0;
 
-            <h1>
-                Meet
-                <span>Future You.</span>
-            </h1>
+    document.addEventListener("mousemove", function(event) {
 
-            <p class="hero-text">
-                Your future isn't a single path.
-                Explore how small changes today can create
-                completely different possibilities tomorrow.
-            </p>
+      const distance = Math.hypot(
+        event.clientX - lastX,
+        event.clientY - lastY
+      );
 
-            <a href="#" class="main-button">
-                Explore your future
-                <span class="arrow">→</span>
-            </a>
+      if (distance < 18) return;
 
-        </section>
+      lastX = event.clientX;
+      lastY = event.clientY;
 
+      const flower = document.createElement("span");
 
-        <section class="preview">
+      flower.className = "trail-flower";
 
-            <div class="floating floating-one">
-                + 365 hours
-            </div>
+      flower.innerText =
+        flowers[Math.floor(Math.random() * flowers.length)];
 
-            <div class="floating floating-two">
-                New trajectory ✦
-            </div>
+      flower.style.left = event.clientX + "px";
+      flower.style.top = event.clientY + "px";
 
-            <div class="preview-card">
+      flower.style.fontSize =
+        (12 + Math.random() * 12) + "px";
 
-                <div class="preview-header">
+      document.body.appendChild(flower);
 
-                    <div class="preview-title">
-                        Your trajectory
-                    </div>
+      setTimeout(() => {
+        flower.remove();
+      }, 900);
 
-                    <div class="today">
-                        Today
-                    </div>
+    });
 
-                </div>
-
-
-                <div class="timeline">
-
-                    <div class="timeline-item">
-
-                        <div class="dot pink"></div>
-
-                        <div class="timeline-label">
-                            NOW
-                        </div>
-
-                        <div class="timeline-value">
-                            You are here
-                        </div>
-
-                    </div>
-
-
-                    <div class="timeline-item">
-
-                        <div class="dot lavender"></div>
-
-                        <div class="timeline-label">
-                            3 MONTHS
-                        </div>
-
-                        <div class="timeline-value">
-                            Your path takes shape
-                        </div>
-
-                    </div>
-
-
-                    <div class="timeline-item">
-
-                        <div class="dot yellow"></div>
-
-                        <div class="timeline-label">
-                            6 MONTHS
-                        </div>
-
-                        <div class="timeline-value">
-                            Small changes add up
-                        </div>
-
-                    </div>
-
-
-                    <div class="timeline-item">
-
-                        <div class="dot pink"></div>
-
-                        <div class="timeline-label">
-                            1 YEAR
-                        </div>
-
-                        <div class="timeline-value">
-                            A different possibility
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
+  </script>
 
 </body>
 </html>
